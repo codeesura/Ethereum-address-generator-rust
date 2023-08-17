@@ -23,10 +23,10 @@ git clone https://github.com/codeesura/Ethereum-address-generator-rust.git
 cd Ethereum-address-generator-rust
 ```
 
-- Then, install the dependencies:
+Then, install the dependencies:
 
 ```bash
-cargo build
+cargo build && cargo run
 ```
 
 ## Usage
@@ -58,6 +58,3 @@ If you would like to contribute to the project, please open an issue first. Pull
 ## License
 
 This project is licensed under the [MIT License](https://github.com/codeesura/Ethereum-address-generator-rust/blob/main/LICENSE).
-
-
-
