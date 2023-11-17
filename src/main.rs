@@ -1,23 +1,38 @@
 use anyhow::Result;
-use secp256k1::{rand::rngs::JitterRng, PublicKey, SecretKey, Secp256k1};
+use num_cpus;
+use secp256k1::{rand::rngs::JitterRng, PublicKey, Secp256k1};
 use std::time::{SystemTime, UNIX_EPOCH};
 use tiny_keccak::keccak256;
 use web3::types::Address;
 use std::fs::{OpenOptions, File};
 use std::io::{Read, Write};
 use serde_json::{Value, json};
+use rayon::prelude::*;
 
 #[tokio::main]
 async fn main() {
+    println!("{}", "Bot started");
     loop {
         if let Err(e) = run_bot().await {
-            println!("An error occurred: {:?}", e);
+            println!("Error : {:?}", e);
             continue;
         }
     }
 }
 
 async fn run_bot() -> Result<()> {
+    (0..num_cpus::get()).into_par_iter().for_each(|_| {
+        for _ in 0..1000 / num_cpus::get() {
+            if let Err(e) = create_address() {
+                println!("Hata oluştu: {:?}", e);
+            }
+        }
+    });
+
+    Ok(())
+}
+
+fn create_address() -> Result<()> {
     // Key pair generation and address calculation code...
     let secp = Secp256k1::new();
     let get_nstime = || -> u64 {
